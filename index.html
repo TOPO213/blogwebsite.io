@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Blog Website</h1>
+    </header>
+    <main>
+        <section class="landing">
+            <h2>Explore Our Blog</h2>
+            <p>Welcome to our blog website. Discover amazing articles on various topics.</p>
+            <a href="blog.html" class="btn">Explore</a>
+        </section>
+        <section class="login">
+            <h2>Sign In</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+
+                <!-- Replace the button with an anchor tag -->
+                <a href="dashboard.html" class="btn" id="login-button">Log In</a>
+            </form>
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Blog Website</p>
+    </footer>
+    <script>
+        var database = [
+      {
+        username: "user1",
+        password: "ugyen@321"
+      },
+      {
+        username: "user2",
+        password: "ugyen@321"
+      },
+      {
+        username: "user3",
+        password: "karma@321"
+      },
+      {
+        username: "user4",
+        password: "suman@312"
+      },
+      {
+        username: "user5",
+        password: "tshewang@321"
+      },
+      {
+        username: "user6",
+        password: "sonam@321"
+      }
+    ];
+
+    function isUserValid(username, password) {
+      for (var i = 0; i < database.length; i++) {
+        if (database[i].username === username && database[i].password === password) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function signIn() {
+      var usernameInput = document.getElementById("username");
+      var passwordInput = document.getElementById("password");
+      var username = usernameInput.value;
+      var password = passwordInput.value;
+
+      if (isUserValid(username, password)) {
+        window.location = "dashboard.html";
+      } else {
+        alert("Sorry, your username or password is incorrect.");
+      }
+    }
+    </script>
+</body>
+</html>

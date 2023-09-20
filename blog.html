@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <header>
+        <h1>Blog Page</h1>
+        <br><br><br>
+        <nav>
+            <a href="dashboard.html" target="blank">Home</a>
+<a href="gallery.html" target="blank">Gallery</a>
+<a href="contact.html" target="blank"> Contact</a>
+
+        </nav>
+    </header>
+    <main>
+        <section class="blog-form">
+            <h2>Create a New Blog Post</h2>
+            <form id="blog-form">
+                <label for="title">Title:</label>
+                <input type="text" id="title" required><br>
+                <br><br>
+
+                <label for="content">Content:</label>
+                <textarea id="content" required></textarea><br>
+                <br><br>
+
+                <label for="image">Image:</label>
+                <input type="file" id="image" accept="image/*" required><br>
+                <br><br>
+
+                <button type="submit">Create Post</button>
+                <br><br>
+            </form>
+        </section>
+
+        <section class="blog-posts" id="blog-posts">
+            
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Blog Page</p>
+    </footer>
+    <script>
+        let blogData = [];
+        let editIndex = -1; // Track the index of the post being edited
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const blogForm = document.getElementById('blog-form');
+            const blogPosts = document.getElementById('blog-posts');
+
+            function createBlogPost(title, content, image) {
+                const newPost = { title, content, image };
+                blogData.push(newPost);
+                return newPost;
+            }
+
+            blogForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const title = document.getElementById('title').value;
+                const content = document.getElementById('content').value;
+                const image = document.getElementById('image').files[0];
+
+                if (title && content && image) {
+                    if (editIndex === -1) {
+                        // Create a new post
+                        createBlogPost(title, content, image);
+                    } else {
+                        // Edit an existing post
+                        blogData[editIndex] = { title, content, image };
+                        editIndex = -1; // Reset the edit index
+                    }
+                    displayBlogPosts();
+                    clearForm();
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+
+            function displayBlogPosts() {
+                blogPosts.innerHTML = '';
+                blogData.forEach((post, index) => {
+                    const postDiv = document.createElement('div');
+                    postDiv.classList.add('blog-post');
+                    postDiv.innerHTML = `
+                        <h3>${post.title}</h3>
+                        <p>${post.content}</p>
+                        <img src="${URL.createObjectURL(post.image)}" alt="Blog Image">
+                        <button onclick="editPost(${index})">Edit</button>
+                        <button onclick="deletePost(${index})">Delete</button>
+                    `;
+                    blogPosts.appendChild(postDiv);
+                });
+            }
+
+            function editPost(index) {
+                // Populate the form with the post's data for editing
+                const post = blogData[index];
+                document.getElementById('title').value = post.title;
+                document.getElementById('content').value = post.content;
+                editIndex = index; // Set the edit index
+            }
+
+            function deletePost(index) {
+                blogData.splice(index, 1);
+                displayBlogPosts();
+            }
+
+            function clearForm() {
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+                document.getElementById('image').value = '';
+            }
+
+            displayBlogPosts();
+        });
+    </script>
+</body>
+</html>
